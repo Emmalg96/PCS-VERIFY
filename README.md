@@ -80,6 +80,8 @@ Open http://127.0.0.1:43123 — upload Excel + Word in the browser.
 
 To host this behind a **company-internal URL** using **GitHub** (build in Actions, image in GitHub Container Registry), see **`docs/INTERNAL-DEPLOYMENT.md`**.
 
+**Run the published app with Docker:** `docker compose pull && docker compose up -d` then open **http://localhost:3000** (see `docker-compose.yml`).
+
 ---
 
 ## Sample files

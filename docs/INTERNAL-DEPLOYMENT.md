@@ -31,7 +31,26 @@ The image name is:
 - **Azure App Service / Container Apps, AWS ECS, etc.** — create an app from the container image and attach your internal domain / private endpoint per your IT standards.
 - **A Linux VM** — install Docker, `docker pull` the image, `docker run` (see below), put **HTTPS + internal DNS** in front (reverse proxy or load balancer).
 
-## 4. Run the container (example)
+## 4. Run the app (Docker Compose — recommended)
+
+From a machine with Docker installed, clone the repo **or** copy `docker-compose.yml` and point the `image` at your GHCR package.
+
+**Build and run from source (no pull needed):**
+
+```bash
+docker compose up --build -d
+```
+
+**Run the image GitHub Actions published** (log in to `ghcr.io` first if the package is private):
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+Open **http://localhost:3000** (or your server’s hostname on port 3000). For an internal URL, put a reverse proxy / ingress in front that serves HTTPS and your company DNS name.
+
+## 4b. Run the container (docker run)
 
 Replace the image with yours from step 2.
 

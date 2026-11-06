@@ -1,0 +1,17 @@
+# Run the PCS Check web app (Next.js + Python) locally or on a server.
+# - Builds from this repo's Dockerfile, or uses the image from GitHub Container Registry when published.
+#
+# Local (build):     docker compose up --build
+# Use published:    docker compose pull && docker compose up -d
+# Open:              http://localhost:3000
+
+services:
+  pcs-check:
+    image: ghcr.io/emmalg96/pcs-verify:latest
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
