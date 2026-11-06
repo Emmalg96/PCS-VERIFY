@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build dist/pcs_checker_for_windows.zip — one download for Windows + Streamlit."""
+"""Build dist/pcs_checker_for_windows.zip — Python CLI + samples (no Streamlit)."""
 
 from __future__ import annotations
 
@@ -12,14 +12,10 @@ PREFIX = "pcs-check"
 
 # Paths relative to repo root to include (no Node / .git)
 INCLUDE_FILES = [
-    "app.py",
-    "RUN_STREAMLIT.bat",
     "requirements.txt",
     "README.md",
     "verify_pcs.py",
-    "pcs_verify_app.py",
     "pcs_verify_standalone.py",
-    "START_HERE_WINDOWS.txt",
     "docs/PCS-TOOL-PROPOSAL.md",
     "docs/WI-000277-SECTION-3.7-MAPPING.md",
     "public/samples/PCS_PB0669_Rev03.docx",
@@ -30,36 +26,32 @@ INCLUDE_GLOBS = [
     "public/samples/*",
 ]
 
+START_HERE = """PCS Check — Windows (command line)
+=================================
 
-def main() -> None:
-    start = ROOT / "START_HERE_WINDOWS.txt"
-    start.write_text(
-        """PCS Check — Windows (Streamlit)
-================================
+This zip contains the Python **pcs_verify** package and sample files.
 
-1. Unzip this folder to:
+1. Unzip this folder to a path without spaces if possible, e.g.:
    C:\\Projects\\pcs-check
 
-2. Double-click RUN_STREAMLIT.bat
-   OR open Command Prompt and run:
+2. Open Command Prompt and run:
 
    cd C:\\Projects\\pcs-check
    py -m pip install -r requirements.txt
-   py -m streamlit run app.py --server.port 43123
 
-3. Open http://127.0.0.1:43123 in Chrome or Edge
+3. Verify a filled form against an approved workbook (examples):
 
-In the app:
-  - PDF → Word
-  - Verify against Word
+   py -m pcs_verify public\\samples\\PCS_WORKBOOK_FINAL_TABLES.pdf public\\samples\\PCS_FORM_TABLES_MATCH.docx
 
-Do NOT save individual .url shortcuts from the browser — use this zip.
+   py verify_pcs.py path\\to\\workbook.pdf path\\to\\filled_form.docx
+
+**Full browser UI (Next.js):** use the full repo with Node.js — see README.md ("Full web app").
 
 Sample PDF: public\\samples\\PCS_WORKBOOK_FINAL_TABLES.pdf
-""",
-        encoding="utf-8",
-    )
+"""
 
+
+def main() -> None:
     OUT.parent.mkdir(parents=True, exist_ok=True)
     files: list[Path] = []
     for rel in INCLUDE_FILES:
@@ -73,6 +65,10 @@ Sample PDF: public\\samples\\PCS_WORKBOOK_FINAL_TABLES.pdf
     uniq = sorted({f.resolve() for f in files if f.is_file()})
 
     with zipfile.ZipFile(OUT, "w", compression=zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr(
+            f"{PREFIX}/START_HERE_WINDOWS.txt".replace("\\", "/"),
+            START_HERE,
+        )
         for f in uniq:
             arc = Path(PREFIX) / f.relative_to(ROOT)
             zf.write(f, arcname=str(arc).replace("\\", "/"))

@@ -1,27 +1,20 @@
 # PCS Verification
 
-**Easiest on Windows: Streamlit app** (browser UI — PDF → Word + verify).
+Web app (**Next.js**) for PDF → Word (§4.1 / §4.2) and verify against NCL-FRM-000146. Python package **`pcs_verify`** powers parsing and conversion on the server.
 
-## Windows — Streamlit (recommended)
+## Full web app (recommended)
 
-1. Put the **whole project** in e.g. `C:\Projects\pcs-check`  
-   (must contain `app.py`, `requirements.txt`, and the `pcs_verify` folder).
-2. **Double-click `RUN_STREAMLIT.bat`**  
-   or in Command Prompt:
+You need **Python 3** and **Node.js LTS** on the same machine (the API runs Python as a subprocess).
 
-```bat
-cd C:\Projects\pcs-check
-py -m pip install -r requirements.txt
-py -m streamlit run app.py --server.port 43123
+```bash
+pip install -r requirements.txt
+npm install
+npm run dev
 ```
 
-3. Open **http://127.0.0.1:43123**
+Open **http://127.0.0.1:43123** — upload files in the browser.
 
-In the app:
-- **PDF → Word** — upload approved workbook PDF → download §4.1 / §4.2 Word tables (superscript legends). Copied cells are **blue-shaded** with a review banner so a person can check the transfer before filing.
-- **Verify against Word** — compare PDF/Excel to a filled NCL-FRM-000146 (supports modern `#pos`/`n` and legacy `Pos`/`Neg`)
-
-**Important:** run commands from the project folder (where `requirements.txt` is), not from `C:\Users\...`.
+- **Production build:** `npm run build` then `npm run start` (same port).
 
 ---
 
@@ -44,43 +37,12 @@ python3 -m pcs_verify path/to/PCS_WORKBOOK.xlsx path/to/filled_PCS_FORM.docx
 
 Exit code `0` = passed, `1` = failed. A text report is written (default `pcs-verification-report.txt`).
 
-#### Browser app on your PC (same Streamlit app)
-
-```bat
-cd C:\Projects\pcs-check
-py -m streamlit run app.py --server.port 43123
-```
-
-Then open **http://127.0.0.1:43123**.
-
-### What you need
-
-| Already have | Needed |
-|---|---|
-| Python 3 | `pip install -r requirements.txt` (`openpyxl`, `python-docx`) |
-| Node.js | **Not required** for the Python tool |
-
 ---
 
-## Full web app (later, when Node.js is approved)
+## Internal company URL
 
-You do **not** download Next.js separately. Install **Node.js LTS**, then:
-
-```bash
-pip install -r requirements.txt
-npm install          # installs Next.js automatically
-npm run dev
-```
-
-Open http://127.0.0.1:43123 — upload Excel + Word in the browser.
-
----
-
-## Internal company URL (Docker + GitHub)
-
-To host this behind a **company-internal URL** using **GitHub** (build in Actions, image in GitHub Container Registry), see **`docs/INTERNAL-DEPLOYMENT.md`**.
-
-**Run the published app with Docker:** `docker compose pull && docker compose up -d` then open **http://localhost:3000** (see `docker-compose.yml`).
+- **Docker + GitHub (GHCR):** see **`docs/INTERNAL-DEPLOYMENT.md`** and `docker-compose.yml`.
+- **Cursor Cloud / Pages (publish from Cursor):** see **`docs/CURSOR-PUBLISH.md`** — confirm your stack (Node + Python) is supported before enabling production use.
 
 ---
 
