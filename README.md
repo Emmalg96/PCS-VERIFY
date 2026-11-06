@@ -76,6 +76,12 @@ Open http://127.0.0.1:43123 — upload Excel + Word in the browser.
 
 ---
 
+## Internal company URL (Docker + GitHub)
+
+To host this behind a **company-internal URL** using **GitHub** (build in Actions, image in GitHub Container Registry), see **`docs/INTERNAL-DEPLOYMENT.md`**.
+
+---
+
 ## Sample files
 
 - `public/samples/PCS_PB0669_Rev03.docx` — **real example** Product Claims Summary (Table 3 Normal / Table 4 Abnormal layout)

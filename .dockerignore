@@ -1,0 +1,33 @@
+# Dependencies and build output
+node_modules
+.next
+out
+dist
+build
+
+# Git and IDE
+.git
+.gitignore
+.cursor
+.idea
+.vscode
+
+# Local env and secrets
+.env
+.env.*
+!.env.example
+
+# Tests and docs not needed at runtime (keep image smaller)
+coverage
+*.md
+docs
+
+# Python
+__pycache__
+*.pyc
+.venv
+
+# Misc
+.DS_Store
+*.pem
+pcs-verification-report.txt

@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  /* Smaller production images when using the Dockerfile (copies `.next/standalone`). */
+  output: "standalone",
 };
 
 export default nextConfig;
